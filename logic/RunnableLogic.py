@@ -9,15 +9,19 @@ class WorkerSignals(QObject):
     result = pyqtSignal(object)
 
 
+test = pyqtSignal(object)
+
+
 class Worker(QRunnable):
     '''
     Worker thread
     '''
     def __init__(self, controller_repository: ControllerRepository):
+        global test
         super(Worker, self).__init__()
-        self.frameSignal = WorkerSignals()
+        self.result = test()
         self.controllerRepository = controller_repository
-        self.uiRepository = UIRepository(self.frameSignal.result)
+        self.uiRepository = UIRepository(self.result)
 
     @pyqtSlot()
     def run(self):
